@@ -1,171 +1,143 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Software Fix</title>
-<style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #101827;
-  color: white;
-  padding: 20px;
-}
-header {
-  text-align: center;
-  padding: 25px 10px;
-}
-header h1 { color: #42d392; }
-header p { color: #cbd5e1; }
-.card {
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 15px;
-  margin: 15px 0;
-  border: 1px solid #334155;
-}
-select, button {
-  width: 100%;
-  padding: 14px;
-  margin-top: 12px;
-  border-radius: 9px;
-  font-size: 16px;
-}
-select {
-  background: #0f172a;
-  color: white;
-  border: 1px solid #64748b;
-}
-button {
-  background: #16a36a;
-  color: white;
-  border: none;
-  font-weight: bold;
-}
-button:active { background: #087d4e; }
-#result {
-  display: none;
-  line-height: 1.9;
-  color: #d1fae5;
-}
-footer {
-  text-align: center;
-  color: #94a3b8;
-  margin-top: 35px;
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="Smart Software Fix Toolkit - دليل تفاعلي لتشخيص مشكلات Android وWindows والبرامج وحلها خطوة بخطوة.">
+  <title>Smart Software Fix Toolkit</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#121d2e;--panel2:#172438;--line:#29384d;--text:#f4f7fb;--muted:#aab7c8;--blue:#42a5f5;--cyan:#36d6c5;--warn:#ffcc66;--danger:#ff7777;--green:#5bd69b}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#0b1220,#101827 55%,#0b1220);color:var(--text);font-family:Arial,"Noto Sans Arabic",sans-serif;line-height:1.7}
+    button,input,select{font:inherit} button{cursor:pointer}
+    .wrap{max-width:980px;margin:auto;padding:16px}
+    header{text-align:center;padding:28px 12px 20px}
+    .logo{width:64px;height:64px;border-radius:20px;margin:auto auto 12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--cyan));font-size:30px;color:#071321;font-weight:bold}
+    h1{font-size:clamp(25px,5vw,38px);margin:4px 0;color:#fff} header p{color:var(--muted);margin:6px auto;max-width:650px}
+    .tag{display:inline-block;border:1px solid #31516b;border-radius:30px;padding:3px 12px;color:#9bd9ff;font-size:13px;margin-top:8px}
+    .notice{background:#17263a;border:1px solid #31516b;border-radius:14px;padding:12px 14px;color:#c9d8e9;font-size:14px;margin:10px 0 18px}
+    .searchbar{display:flex;gap:8px;margin:16px 0}.searchbar input{flex:1;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:13px;color:white;outline:none}.searchbar input:focus{border-color:var(--blue)}
+    .btn{border:0;border-radius:12px;padding:11px 16px;background:var(--blue);color:#071321;font-weight:bold}.btn.secondary{background:#26364b;color:#edf5ff;border:1px solid #3b4d64}.btn:focus-visible,.tool:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+    .section-title{font-size:21px;margin:22px 0 12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:10px}
+    .tool{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:15px;text-align:right;color:var(--text);min-height:118px;transition:.15s}
+    .tool:hover{transform:translateY(-2px);border-color:var(--blue);background:var(--panel2)}.tool .ico{font-size:25px;display:block}.tool strong{display:block;margin:5px 0}.tool small{color:var(--muted)}
+    .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px;margin-top:16px}
+    .hidden{display:none!important}.muted{color:var(--muted)}.step{padding:12px;margin:9px 0;background:#18263a;border-radius:12px;border-right:3px solid var(--blue)}
+    .step.done{border-color:var(--green);opacity:.8}.step label{display:flex;gap:10px;align-items:flex-start}.step input{margin-top:8px;accent-color:var(--green);width:18px;height:18px}
+    .result-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.pill{font-size:12px;color:#bfe8ff;background:#1c3850;border-radius:20px;padding:3px 10px}
+    .warning{border-right:3px solid var(--warn);background:#352d1b;padding:11px;border-radius:10px;color:#ffe4aa;margin:12px 0}
+    .danger{border-right:3px solid var(--danger);background:#351f27;padding:11px;border-radius:10px;color:#ffd0d0;margin:12px 0}
+    footer{text-align:center;color:var(--muted);font-size:13px;padding:28px 8px}
+    .empty{text-align:center;color:var(--muted);padding:20px}
+    @media(min-width:700px){.wrap{padding:22px}.tool{min-height:130px}}
+  </style>
 </head>
 <body>
+<div class="wrap">
+  <header>
+    <div class="logo" aria-hidden="true">⚙</div>
+    <h1>Smart Software Fix Toolkit</h1>
+    <p>مساعدك لتشخيص مشكلات الهاتف والكمبيوتر والبرامج، مع حلول واضحة خطوة بخطوة.</p>
+    <span class="tag">Android • Windows • FRP • التطبيقات • الشبكات</span>
+  </header>
 
-<header>
-  <h1>🛠️ Smart Software Fix</h1>
-  <h2>مساعد إصلاح مشاكل السوفت وير</h2>
-  <p>اكتشف المشكلة واحصل على خطوات لحلها</p>
-</header>
+  <div class="notice">ℹ️ هذا الموقع دليل إرشادي فقط؛ لا يفحص جهازك تلقائياً ولا يغيّر إعداداته. اتبع الخطوات الآمنة، وخذ نسخة احتياطية قبل إعادة الضبط أو حذف البيانات.</div>
 
-<div class="card">
-  <h3>📱 اختر نوع المشكلة</h3>
-  <select id="problem">
-    <option value="">اختر المشكلة</option>
-    <option value="slow">بطء الهاتف وتعليق النظام</option>
-    <option value="apps">التطبيقات تتوقف فجأة</option>
-    <option value="storage">مساحة التخزين ممتلئة</option>
-    <option value="update">مشكلة تحديث النظام</option>
-    <option value="wifi">مشكلة الإنترنت والواي فاي</option>
-    <option value="boot">الهاتف لا يعمل بشكل طبيعي</option>
-  </select>
-  <button onclick="diagnose()">تشخيص المشكلة 🔍</button>
+  <div class="searchbar">
+    <input id="search" type="search" placeholder="ابحث عن مشكلة: بطء، واي فاي، FRP، تطبيق لا يفتح..." aria-label="ابحث عن مشكلة">
+    <button class="btn" id="clearSearch">مسح</button>
+  </div>
+
+  <h2 class="section-title">اختر نوع المشكلة</h2>
+  <div class="grid" id="tools"></div>
+
+  <section id="diagnosis" class="panel hidden" aria-live="polite">
+    <div class="result-head"><h2 id="problemTitle" style="margin:0"></h2><span class="pill" id="platform"></span></div>
+    <p id="problemIntro" class="muted"></p>
+    <div id="warningArea"></div>
+    <h3>خطوات الحل</h3>
+    <div id="steps"></div>
+    <div class="result-head">
+      <span class="muted" id="progress">0 من 0 مكتملة</span>
+      <button class="btn secondary" id="resetSteps">إعادة تعيين الخطوات</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-top:0">أدوات مساعدة سريعة</h2>
+    <div class="grid">
+      <button class="tool" data-quick="restart"><span class="ico">🔄</span><strong>إعادة تشغيل آمنة</strong><small>متى وكيف تعيد التشغيل</small></button>
+      <button class="tool" data-quick="storage"><span class="ico">🧹</span><strong>تنظيف التخزين</strong><small>طرق تحرير المساحة بأمان</small></button>
+      <button class="tool" data-quick="network"><span class="ico">📶</span><strong>فحص الاتصال</strong><small>خطوات تشخيص الشبكة</small></button>
+      <button class="tool" data-quick="backup"><span class="ico">💾</span><strong>النسخ الاحتياطي</strong><small>قبل أي إصلاح كبير</small></button>
+    </div>
+    <div id="quickResult" class="hidden"></div>
+  </section>
+
+  <section class="panel">
+    <h2 style="margin-top:0">نصائح مهمة</h2>
+    <ul class="muted">
+      <li>حدّث النظام والتطبيقات من المصادر الرسمية فقط.</li>
+      <li>لا تثبّت ملفات APK أو برامج مجهولة تدّعي إصلاح الجهاز.</li>
+      <li>لا تشارك كلمات المرور أو رموز التحقق مع أي شخص.</li>
+      <li>إذا ظهرت حرارة شديدة أو انتفاخ في البطارية، أوقف استخدام الجهاز واطلب فحصاً فنياً.</li>
+      <li>إعادة ضبط المصنع تمسح البيانات؛ لا تنفذها قبل التأكد من النسخ الاحتياطي.</li>
+    </ul>
+  </section>
+  <footer>Smart Software Fix Toolkit — إصدار أولي يعمل دون خادم أو تسجيل دخول.</footer>
 </div>
-
-<div class="card" id="result">
-  <h3>نتيجة التشخيص والحلول</h3>
-  <div id="solution"></div>
-</div>
-
 <script>
-const solutions = {
-slow: {
-title: "بطء الهاتف وتعليق النظام",
-steps: [
-"أعد تشغيل الهاتف.",
-"أغلق التطبيقات التي لا تستخدمها.",
-"احذف الملفات غير الضرورية بعد حفظ المهم منها.",
-"حدّث التطبيقات من متجر Play.",
-"تجنب تطبيقات التنظيف المجهولة."
-]},
-apps: {
-title: "توقف التطبيقات فجأة",
-steps: [
-"أعد تشغيل الهاتف.",
-"حدّث التطبيق من متجر Play.",
-"افتح إعدادات التطبيقات واختر التطبيق المتعطل.",
-"جرّب مسح ذاكرة التخزين المؤقت Cache.",
-"لا تمسح بيانات التطبيق إلا بعد التأكد من وجود نسخة احتياطية."
-]},
-storage: {
-title: "امتلاء مساحة التخزين",
-steps: [
-"افتح إعدادات التخزين.",
-"راجع الملفات الكبيرة.",
-"انقل الصور والفيديوهات المهمة إلى مكان آمن.",
-"احذف الملفات المؤقتة غير الضرورية.",
-"أفرغ سلة المحذوفات إن وجدت."
-]},
-update: {
-title: "مشكلة تحديث النظام",
-steps: [
-"تأكد من اتصال الإنترنت.",
-"تأكد من وجود مساحة تخزين كافية.",
-"اشحن الهاتف بنسبة مناسبة.",
-"أعد تشغيل الهاتف وجرب التحديث مرة أخرى.",
-"إذا استمرت المشكلة، راجع دعم الشركة المصنعة."
-]},
-wifi: {
-title: "مشكلة الواي فاي والإنترنت",
-steps: [
-"تأكد أن الراوتر يعمل.",
-"أوقف الواي فاي ثم شغله.",
-"أعد تشغيل الراوتر والهاتف.",
-"جرّب الاتصال بشبكة أخرى.",
-"إذا استمرت المشكلة، راجع إعدادات الشبكة."
-]},
-boot: {
-title: "الهاتف لا يعمل بشكل طبيعي",
-steps: [
-"اشحن الهاتف لمدة 30 دقيقة باستخدام شاحن موثوق.",
-"جرّب إعادة التشغيل القسري حسب تعليمات الشركة.",
-"افصل الملحقات الخارجية.",
-"لا تعمل فورمات قبل حفظ بياناتك إن أمكن.",
-"إذا استمرت المشكلة، راجع مركز صيانة موثوق."
-]}
+"use strict";
+const problems = [
+ {id:"android-slow",icon:"🐢",title:"بطء أو تعليق Android",platform:"Android",desc:"جرّب الخطوات بالترتيب، وتوقف عندما تتحسن المشكلة.",steps:["أعد تشغيل الهاتف وانتظر دقيقتين بعد فتحه.","افتح الإعدادات ← التخزين وتحقق من المساحة المتاحة؛ حاول إبقاء 10–15% مساحة فارغة.","أغلق التطبيقات غير المستخدمة وحدّث التطبيقات من Google Play أو المتجر الرسمي.","حدّث نظام Android من الإعدادات ← تحديث النظام بعد الاتصال بشبكة مستقرة.","إذا بدأ البطء بعد تطبيق جديد، أزل التطبيق المشتبه به بعد حفظ بياناته.","إذا استمرت المشكلة، شغّل الوضع الآمن إن كان جهازك يدعمه لمعرفة هل السبب تطبيق خارجي."]},
+ {id:"apps-crash",icon:"📱",title:"تطبيق يتوقف أو لا يفتح",platform:"Android / Windows",desc:"ابدأ بالتطبيق نفسه قبل تغيير إعدادات الجهاز.",steps:["أغلق التطبيق تماماً ثم افتحه من جديد.","أعد تشغيل الجهاز وتأكد من وجود اتصال إن كان التطبيق يحتاج الإنترنت.","حدّث التطبيق والنظام من المصدر الرسمي.","Android: الإعدادات ← التطبيقات ← اسم التطبيق ← التخزين ← مسح ذاكرة التخزين المؤقت فقط.","تحقق من مساحة التخزين والأذونات المطلوبة للتطبيق.","إذا لم يعمل، أعد تثبيته بعد التأكد من مزامنة بياناتك أو وجود نسخة احتياطية."]},
+ {id:"storage",icon:"💽",title:"امتلاء مساحة التخزين",platform:"Android / Windows",desc:"احذف الملفات التي تعرفها فقط، ولا تحذف ملفات النظام.",steps:["راجع استخدام المساحة من إعدادات التخزين لمعرفة الفئة الأكبر.","انقل الصور والفيديوهات المهمة إلى نسخة احتياطية موثوقة.","احذف التنزيلات والملفات المكررة التي لا تحتاجها.","أزل التطبيقات غير المستخدمة بعد مراجعة بياناتها.","Android: امسح ذاكرة التخزين المؤقت للتطبيقات عند الحاجة؛ لا تمسح بيانات التطبيق دون فهم النتيجة.","أفرغ سلة المحذوفات إن كنت متأكداً من عدم حاجتك للملفات."]},
+ {id:"wifi",icon:"📶",title:"مشكلة Wi‑Fi أو الإنترنت",platform:"Android / Windows",desc:"حدد هل المشكلة من جهاز واحد أم من الشبكة كلها.",steps:["تأكد من تشغيل Wi‑Fi وإيقاف وضع الطيران.","جرّب فتح موقع آخر، ثم اختبر جهازاً آخر على الشبكة نفسها.","أوقف Wi‑Fi وشغّله، ثم أعد تشغيل الراوتر وانتظر عودته بالكامل.","اقترب من الراوتر وتحقق من صحة كلمة المرور وعدم وجود حد للأجهزة.","انسَ الشبكة ثم اتصل بها مجدداً إذا كنت تعرف كلمة المرور.","إذا فشلت كل الأجهزة، تواصل مع مزود الإنترنت؛ وإذا فشل جهاز واحد فقط افحص إعداداته."]},
+ {id:"update",icon:"⬆️",title:"فشل تحديث النظام",platform:"Android / Windows",desc:"لا توقف الجهاز أثناء تثبيت تحديث فعلي.",steps:["تأكد من اتصال إنترنت مستقر وشحن كافٍ أو توصيل الجهاز بالكهرباء.","تحقق من وجود مساحة تخزين كافية.","أعد تشغيل الجهاز ثم حاول التحديث مرة أخرى.","تأكد من ضبط التاريخ والوقت تلقائياً.","Windows: افتح Settings ← Windows Update وشغّل مستكشف أخطاء التحديث إن توفر.","دوّن رمز الخطأ الظاهر وابحث عنه في دعم الشركة الرسمي قبل أي تعديل متقدم."]},
+ {id:"boot",icon:"🔌",title:"الهاتف لا يعمل أو لا يقلع",platform:"Android",desc:"اتبع تعليمات الشركة لطراز جهازك؛ تختلف أزرار الاسترداد بين الأجهزة.",warning:"إذا كانت البطارية منتفخة أو الجهاز شديد السخونة أو تعرض للماء، لا تشحنه ولا تحاول فتحه بنفسك.",steps:["تحقق من المقبس والكابل والشاحن باستخدام ملحقات سليمة ومتوافقة.","اترك الهاتف على الشاحن فترة قصيرة إذا لم توجد علامات تلف أو حرارة غير طبيعية.","اضغط زر التشغيل مطولاً 10–20 ثانية لمحاولة إعادة التشغيل القسري وفق دليل الشركة.","افحص الشاشة والصوت والاهتزاز؛ قد يكون الجهاز يعمل والشاشة فقط لا تعرض الصورة.","إذا ظهر شعار الشركة ثم توقف، اطلب خطوات الاسترداد الرسمية لطرازك دون اختيار مسح البيانات.","إذا لم يستجب، راجع مركز صيانة موثوقاً."]},
+ {id:"windows-slow",icon:"🖥️",title:"بطء Windows",platform:"Windows",desc:"لا توقف عمليات النظام التي لا تعرفها من مدير المهام.",steps:["أعد تشغيل الكمبيوتر واحفظ أعمالك أولاً.","افتح Task Manager وتحقق من البرامج التي تستهلك CPU أو الذاكرة أو القرص.","عطّل برامج بدء التشغيل غير الضرورية فقط.","تحقق من Windows Update وتحديثات التعريفات من الشركة المصنعة.","افحص مساحة القرص واحذف الملفات المؤقتة عبر Storage settings أو Disk Cleanup.","شغّل Windows Security لفحص البرمجيات الضارة."]},
+ {id:"windows-network",icon:"🌐",title:"الإنترنت لا يعمل في Windows",platform:"Windows",desc:"استخدم أدوات النظام المدمجة قبل الأوامر المتقدمة.",steps:["تحقق من وضع الطيران وكابل الشبكة أو اتصال Wi‑Fi.","أعد تشغيل الراوتر والكمبيوتر.","افتح Settings ← Network & Internet وشغّل Network troubleshooter إذا كان متاحاً.","جرّب شبكة أخرى لتحديد هل الخلل من الكمبيوتر أم الراوتر.","حدّث تعريف محول الشبكة من Windows Update أو موقع الشركة المصنعة.","إذا استمرت المشكلة، سجّل رسالة الخطأ وتواصل مع مسؤول الشبكة أو مزود الخدمة."]},
+ {id:"security",icon:"🛡️",title:"اشتباه بفيروس أو إعلان مزعج",platform:"Android / Windows",desc:"لا تضغط على نوافذ التحذير ولا تثبّت تطبيقات تنظيف مجهولة.",warning:"إذا أدخلت كلمة مرور في صفحة مشبوهة، غيّرها من جهاز موثوق وفعّل المصادقة الثنائية.",steps:["افصل الإنترنت مؤقتاً إذا كان الجهاز يتصرف بشكل خطير أو يرسل بيانات دون إذن.","احذف التطبيقات أو البرامج التي لا تعرفها بعد التحقق من اسمها ومصدرها.","Android: شغّل Google Play Protect من متجر Play.","Windows: حدّث Windows Security ثم نفّذ فحصاً كاملاً.","أزل أذونات الإشعارات للمواقع المزعجة من إعدادات المتصفح.","حدّث كلمات المرور المهمة من جهاز موثوق ولا تشارك رموز التحقق."]},
+ {id:"sound",icon:"🔊",title:"الصوت أو الميكروفون لا يعمل",platform:"Android / Windows",desc:"تحقق من المخرج والأذونات قبل افتراض وجود عطل مادي.",steps:["ارفع مستوى الصوت وتأكد من عدم تفعيل الصامت أو عدم الإزعاج.","افصل سماعات Bluetooth وتحقق من جهاز إخراج الصوت المحدد.","أعد تشغيل التطبيق والجهاز.","تحقق من أذونات الميكروفون للتطبيق.","Windows: Settings ← System ← Sound واختر جهاز الإدخال والإخراج الصحيح.","جرّب تطبيقاً آخر؛ إذا فشل الصوت في كل التطبيقات فقد تحتاج إلى فحص فني."]},
+ {id:"frp",icon:"🔐",title:"مشكلة قفل FRP بعد إعادة ضبط المصنع",platform:"Android • Google FRP",desc:"يساعدك هذا الدليل على استعادة الوصول إلى جهاز تملكه باستخدام حساب Google الذي كان متزامناً معه قبل إعادة الضبط.",warning:"FRP ميزة حماية من السرقة. لا يوفر هذا الموقع تجاوز القفل أو تعطيل الحماية أو تخطي التحقق. لا تستخدم ملفات أو أدوات مجهولة؛ قد تسرق بياناتك أو تتلف الجهاز.",steps:["اتصل بشبكة Wi‑Fi مستقرة من شاشة الإعداد الأولي، وتأكد من صحة التاريخ والوقت إن أمكن.","أدخل حساب Google الذي كان مضافاً ومتزامناً على الهاتف قبل إعادة ضبط المصنع؛ قد لا يقبل حساباً جديداً لم يكن مستخدماً على الجهاز.","إذا نسيت البريد الإلكتروني، استخدم صفحة استرداد اسم المستخدم الرسمية: https://accounts.google.com/signin/usernamerecovery من هاتف أو كمبيوتر آخر.","إذا نسيت كلمة المرور، استعد الحساب عبر: https://accounts.google.com/signin/recovery. أكمل التحقق من جهاز ومكان تستخدمهما عادةً.","إذا غيّرت كلمة المرور مؤخراً، اتبع تعليمات Google وانتظر انتهاء أي فترة أمان مطلوبة قبل محاولة إعداد الهاتف مجدداً.","إذا كان الهاتف مستعملاً، اطلب من المالك السابق إزالة حسابه من الجهاز بالطريقة الرسمية قبل إعادة ضبطه مجدداً؛ لا تطلب كلمة مروره.","إذا كنت المالك ولا تستطيع الاستعادة، تواصل مع دعم الشركة المصنّعة أو مركز خدمة معتمد، وجهّز إثبات الشراء ورقم IMEI عند طلبه عبر قناة آمنة.","بعد استعادة الدخول، أضف حسابك الحالي واحتفظ ببيانات الاسترداد، وقبل أي إعادة ضبط مستقبلية أزل حساب Google من إعدادات الجهاز بالطريقة الرسمية إذا كان الجهاز يعمل."]}
+];
+const quick = {
+ restart:["احفظ الملفات وأغلق التطبيقات المفتوحة.","استخدم خيار إعادة التشغيل من قائمة الطاقة، ولا تضغط إيقاف التشغيل أثناء تحديث النظام.","إذا تجمد الجهاز تماماً، استخدم إعادة التشغيل القسري فقط وفق تعليمات الشركة."],
+ storage:["ابدأ بمراجعة إعدادات التخزين لمعرفة الملفات التي تشغل المساحة.","انسخ الصور والمستندات المهمة احتياطياً قبل الحذف.","تجنب حذف مجلدات Android أو Windows أو ملفات النظام يدوياً."],
+ network:["اختبر الإنترنت على جهاز آخر وعلى موقعين مختلفين.","أعد تشغيل الراوتر وانتظر حتى تستقر لمبات الاتصال.","إذا لم تعمل الأجهزة كلها، تواصل مع مزود الخدمة."],
+ backup:["انسخ الصور والملفات وجهات الاتصال إلى خدمة موثوقة أو وسيط خارجي.","تحقق من إمكانية فتح النسخة الاحتياطية ومن تاريخ آخر مزامنة.","لا تبدأ إعادة ضبط المصنع قبل التأكد من حفظ كلمات المرور وبيانات التطبيقات المهمة."]
 };
-
-function diagnose() {
-  const choice = document.getElementById("problem").value;
-  const result = document.getElementById("result");
-  const solution = document.getElementById("solution");
-
-  if (!choice) {
-    alert("الرجاء اختيار المشكلة أولاً");
-    return;
-  }
-
-  const item = solutions[choice];
-  solution.innerHTML = "<h4>" + item.title + "</h4><ol>" +
-    item.steps.map(step => "<li>" + step + "</li>").join("") +
-    "</ol><p>إذا لم تُحل المشكلة، سجّل تفاصيلها واطلب مساعدة فنية.</p>";
-
-  result.style.display = "block";
+const toolsEl=document.getElementById("tools"), diagnosis=document.getElementById("diagnosis");
+let current=null;
+function renderCards(filter=""){
+ toolsEl.innerHTML="";
+ const list=problems.filter(p=>(p.title+" "+p.platform+" "+p.desc).toLowerCase().includes(filter.toLowerCase()));
+ if(!list.length){toolsEl.innerHTML='<div class="empty">لا توجد نتيجة. جرّب كلمة أخرى مثل Wi‑Fi أو بطء.</div>';return}
+ list.forEach(p=>{const b=document.createElement("button");b.className="tool";b.type="button";b.innerHTML=`<span class="ico">${p.icon}</span><strong>${p.title}</strong><small>${p.platform}</small>`;b.addEventListener("click",()=>showProblem(p.id));toolsEl.appendChild(b)});
 }
+function showProblem(id){
+ current=problems.find(p=>p.id===id);if(!current)return;
+ document.getElementById("problemTitle").textContent=current.title;
+ document.getElementById("platform").textContent=current.platform;
+ document.getElementById("problemIntro").textContent=current.desc;
+ document.getElementById("warningArea").innerHTML=current.warning?`<div class="warning">⚠️ ${current.warning}</div>`:"";
+ if(id==="frp"){
+   const links=document.createElement("div");links.className="step";
+   const label=document.createElement("strong");label.textContent="روابط Google الرسمية لاسترداد الحساب: ";links.appendChild(label);
+   [["استرداد البريد الإلكتروني","https://accounts.google.com/signin/usernamerecovery"],["استرداد كلمة المرور","https://accounts.google.com/signin/recovery"]].forEach(([name,url],i)=>{if(i)links.append(" • ");const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";a.textContent=name;a.style.color="var(--blue)";links.appendChild(a)});
+   document.getElementById("warningArea").appendChild(links);
+ }
+ const holder=document.getElementById("steps");holder.innerHTML="";
+ current.steps.forEach((s,i)=>{const div=document.createElement("div");div.className="step";const label=document.createElement("label");const cb=document.createElement("input");cb.type="checkbox";cb.addEventListener("change",()=>{div.classList.toggle("done",cb.checked);updateProgress()});const span=document.createElement("span");span.textContent=(i+1)+". "+s;label.append(cb,span);div.appendChild(label);holder.appendChild(div)});
+ updateProgress();diagnosis.classList.remove("hidden");diagnosis.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function updateProgress(){const boxes=[...document.querySelectorAll("#steps input")];const done=boxes.filter(x=>x.checked).length;document.getElementById("progress").textContent=`${done} من ${boxes.length} مكتملة`;}
+document.getElementById("resetSteps").addEventListener("click",()=>{document.querySelectorAll("#steps input").forEach(x=>{x.checked=false;x.closest(".step").classList.remove("done")});updateProgress()});
+document.getElementById("search").addEventListener("input",e=>renderCards(e.target.value));
+document.getElementById("clearSearch").addEventListener("click",()=>{document.getElementById("search").value="";renderCards();});
+document.querySelectorAll("[data-quick]").forEach(b=>b.addEventListener("click",()=>{const box=document.getElementById("quickResult");box.innerHTML="";const h=document.createElement("h3");h.textContent=b.querySelector("strong").textContent;box.appendChild(h);quick[b.dataset.quick].forEach((s,i)=>{const p=document.createElement("p");p.className="step";p.textContent=(i+1)+". "+s;box.appendChild(p)});box.classList.remove("hidden");box.scrollIntoView({behavior:"smooth",block:"nearest"})}));
+renderCards();
 </script>
-
-<footer>
-  <p>Smart Software Fix © 2026</p>
-  <p>إصدار تجريبي - مساعد إرشادي لتشخيص الأعطال</p>
-</footer>
-
 </body>
 </html>
