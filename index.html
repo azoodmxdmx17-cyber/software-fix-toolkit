@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Software Fix</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #101827;
+  color: white;
+  padding: 20px;
+}
+header {
+  text-align: center;
+  padding: 25px 10px;
+}
+header h1 { color: #42d392; }
+header p { color: #cbd5e1; }
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 15px;
+  margin: 15px 0;
+  border: 1px solid #334155;
+}
+select, button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 12px;
+  border-radius: 9px;
+  font-size: 16px;
+}
+select {
+  background: #0f172a;
+  color: white;
+  border: 1px solid #64748b;
+}
+button {
+  background: #16a36a;
+  color: white;
+  border: none;
+  font-weight: bold;
+}
+button:active { background: #087d4e; }
+#result {
+  display: none;
+  line-height: 1.9;
+  color: #d1fae5;
+}
+footer {
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 35px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🛠️ Smart Software Fix</h1>
+  <h2>مساعد إصلاح مشاكل السوفت وير</h2>
+  <p>اكتشف المشكلة واحصل على خطوات لحلها</p>
+</header>
+
+<div class="card">
+  <h3>📱 اختر نوع المشكلة</h3>
+  <select id="problem">
+    <option value="">اختر المشكلة</option>
+    <option value="slow">بطء الهاتف وتعليق النظام</option>
+    <option value="apps">التطبيقات تتوقف فجأة</option>
+    <option value="storage">مساحة التخزين ممتلئة</option>
+    <option value="update">مشكلة تحديث النظام</option>
+    <option value="wifi">مشكلة الإنترنت والواي فاي</option>
+    <option value="boot">الهاتف لا يعمل بشكل طبيعي</option>
+  </select>
+  <button onclick="diagnose()">تشخيص المشكلة 🔍</button>
+</div>
+
+<div class="card" id="result">
+  <h3>نتيجة التشخيص والحلول</h3>
+  <div id="solution"></div>
+</div>
+
+<script>
+const solutions = {
+slow: {
+title: "بطء الهاتف وتعليق النظام",
+steps: [
+"أعد تشغيل الهاتف.",
+"أغلق التطبيقات التي لا تستخدمها.",
+"احذف الملفات غير الضرورية بعد حفظ المهم منها.",
+"حدّث التطبيقات من متجر Play.",
+"تجنب تطبيقات التنظيف المجهولة."
+]},
+apps: {
+title: "توقف التطبيقات فجأة",
+steps: [
+"أعد تشغيل الهاتف.",
+"حدّث التطبيق من متجر Play.",
+"افتح إعدادات التطبيقات واختر التطبيق المتعطل.",
+"جرّب مسح ذاكرة التخزين المؤقت Cache.",
+"لا تمسح بيانات التطبيق إلا بعد التأكد من وجود نسخة احتياطية."
+]},
+storage: {
+title: "امتلاء مساحة التخزين",
+steps: [
+"افتح إعدادات التخزين.",
+"راجع الملفات الكبيرة.",
+"انقل الصور والفيديوهات المهمة إلى مكان آمن.",
+"احذف الملفات المؤقتة غير الضرورية.",
+"أفرغ سلة المحذوفات إن وجدت."
+]},
+update: {
+title: "مشكلة تحديث النظام",
+steps: [
+"تأكد من اتصال الإنترنت.",
+"تأكد من وجود مساحة تخزين كافية.",
+"اشحن الهاتف بنسبة مناسبة.",
+"أعد تشغيل الهاتف وجرب التحديث مرة أخرى.",
+"إذا استمرت المشكلة، راجع دعم الشركة المصنعة."
+]},
+wifi: {
+title: "مشكلة الواي فاي والإنترنت",
+steps: [
+"تأكد أن الراوتر يعمل.",
+"أوقف الواي فاي ثم شغله.",
+"أعد تشغيل الراوتر والهاتف.",
+"جرّب الاتصال بشبكة أخرى.",
+"إذا استمرت المشكلة، راجع إعدادات الشبكة."
+]},
+boot: {
+title: "الهاتف لا يعمل بشكل طبيعي",
+steps: [
+"اشحن الهاتف لمدة 30 دقيقة باستخدام شاحن موثوق.",
+"جرّب إعادة التشغيل القسري حسب تعليمات الشركة.",
+"افصل الملحقات الخارجية.",
+"لا تعمل فورمات قبل حفظ بياناتك إن أمكن.",
+"إذا استمرت المشكلة، راجع مركز صيانة موثوق."
+]}
+};
+
+function diagnose() {
+  const choice = document.getElementById("problem").value;
+  const result = document.getElementById("result");
+  const solution = document.getElementById("solution");
+
+  if (!choice) {
+    alert("الرجاء اختيار المشكلة أولاً");
+    return;
+  }
+
+  const item = solutions[choice];
+  solution.innerHTML = "<h4>" + item.title + "</h4><ol>" +
+    item.steps.map(step => "<li>" + step + "</li>").join("") +
+    "</ol><p>إذا لم تُحل المشكلة، سجّل تفاصيلها واطلب مساعدة فنية.</p>";
+
+  result.style.display = "block";
+}
+</script>
+
+<footer>
+  <p>Smart Software Fix © 2026</p>
+  <p>إصدار تجريبي - مساعد إرشادي لتشخيص الأعطال</p>
+</footer>
+
+</body>
+</html>
